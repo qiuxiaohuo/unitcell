@@ -1,0 +1,25 @@
+\documentclass{article}
+\usepackage{tikz,pgfplots}
+\begin{document}
+\begin{tikzpicture}
+  \begin{axis}[
+    axis x line=center,
+    axis y line=center,
+    xlabel={$x$},
+    ylabel={$y$},
+    xticklabel={\empty},
+    yticklabel={\empty},
+    xlabel style={below right},
+    ylabel style={above left},
+    xmin=0,
+    xmax=2,
+    ymin=0,
+    ymax=2]
+  \end{axis}
+  \node [fill=red,inner sep=1pt,label=below:$u_1$] (u1) at (0,0) {};
+  \node [fill=red,inner sep=1pt,label=below:$u_2$] (u2) at (3,0) {};
+  \node [fill=red,inner sep=1pt,label=right:$u_3$] (u3) at (3,3) {};
+  \node [fill=red,inner sep=1pt,label=left:$u_4$]  (u4) at (0,3) {};
+  \draw (u1) -- (u2) -- (u3) -- (u4) -- (u1);
+\end{tikzpicture}
+\end{document}
