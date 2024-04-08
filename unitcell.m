@@ -27,7 +27,7 @@ isPrint = 1; isPlot = 1;
 % job commit message to script log
 msg = input('Job commit message: ', 's');
 
-fileattrib('script.log', '+w') % unset script.log read only
+% fileattrib('script.log', '+w') % unset script.log read only
 logID = fopen('script.log','a');
 fprintf(logID,'------------------------------------------------\n');
 fprintf(logID,'Job commit time:    %s \n', string(t));
@@ -35,7 +35,7 @@ fprintf(logID,'Job output folder:  %s \n', currentForderName);
 fprintf(logID,'Job flag status:    isPrint-%d  isPlot-%d \n', isPrint, isPlot);
 fprintf(logID,'Job commit message: %s \n \n', msg);
 fclose(logID);
-fileattrib('script.log', '-w') % set script.log read only
+% fileattrib('script.log', '-w') % set script.log read only
 %% 
 % 输入单胞几何与材料信息
 
