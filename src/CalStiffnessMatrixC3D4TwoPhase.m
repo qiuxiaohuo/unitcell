@@ -3,7 +3,7 @@ function [K] = CalStiffnessMatrixC3D4TwoPhase(info,physTag2Name,V_coord,ELEM_VE,
 
   % function info
   elemType = 'C3D4';
-  [~,dN]   = CalC3D4ElementPara(elemType);
+  [~,dN]   = elempara(elemType);
 
   % preallocate K
   K = zeros(info.nDof);

@@ -3,7 +3,7 @@ function [f] = CalUCellForce(info,physTag2Name,V_coord,ELEM_VE,Lf,Lm,eigE0)
 
   % function info
   elemType = 'C3D4';
-  [~,dN]   = CalC3D4ElementPara(elemType);
+  [~,dN]   = elempara(elemType);
 
   % preallocate K
   f = zeros(info.nDof,1);

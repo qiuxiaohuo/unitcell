@@ -3,7 +3,7 @@ function [K] = CalStiffnessMatrixC3D4OnePhase(nDof,V,VE,L)
 
   elemType = 'C3D4';
   nDim     = 3; nElem = size(VE,1);
-  [~,dN]   = CalC3D4ElementPara(elemType);
+  [~,dN]   = elempara(elemType);
 
   K = zeros(nDof);
   

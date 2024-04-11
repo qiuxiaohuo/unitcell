@@ -1,4 +1,4 @@
-function [U,Strn,Strs,strnAvg,strsAvg] = FEMSolverRVEPBC(info,physTag2Name,V,ELEM_VE,Pair,Lf,Lm,eigE0)
+function U = FEMSolverRVEPBC(info,physTag2Name,V,ELEM_VE,Pair,Lf,Lm,eigE0)
 %FEMSolverUCellLDC Solve 
 %   Detailed explanation goes here
 
@@ -15,9 +15,5 @@ function [U,Strn,Strs,strnAvg,strsAvg] = FEMSolverRVEPBC(info,physTag2Name,V,ELE
   Kl = [K C';C zeros(size(C,1))];
   Ul = Kl\[f;g];
   U  = Ul(1:info.nDof);
-
-  %% postprocess
-  % cal strain and stress
-  [Strn,Strs,strnAvg,strsAvg] = CalStrainAndStressC3D4(info,physTag2Name,V.coord,ELEM_VE,Lf,Lm,U);
 
 end

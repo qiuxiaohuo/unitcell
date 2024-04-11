@@ -3,7 +3,7 @@ function [Strn,Strs,strnAvg,strsAvg] = CalStrainAndStressC3D4(info,physTag2Name,
 
   % function info
   elemType = 'C3D4';
-  [~,dN] = CalC3D4ElementPara(elemType);
+  [~,dN] = elempara(elemType);
 
   % preallocate struct array of Strain and Stress
   Strn(1:info.nElem) = struct('xx',{0},'yy',{0},'zz',{0},'yz',{0},'xz',{0},'xy',{0});
