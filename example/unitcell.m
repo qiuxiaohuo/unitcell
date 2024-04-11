@@ -53,7 +53,7 @@ PrintMaterialConsts(E_f,nu_f,E_m,nu_m,c_f,fID,isPrint);
 mshFileName = "./msh/unit_cell.msh";
 [info,physTag2Name,physName2Tag,geoEntity,V,ELEM,pedcPair] = ReadGMSHV4(mshFileName);
 
-PrintInfo(info,fID,isPrint);
+PrintMeshInfo(info,fID,isPrint);
 %% 
 % 获取主从节点, 并在网格中绘制出节点位置
 

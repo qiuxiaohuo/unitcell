@@ -24,27 +24,34 @@ function [info,physTag2Name,physName2Tag,geoEntity,V,ELEM,pedcPair] = ReadGMSHV4
 
   %% Read all sections
   file = fileread(filename);
+  fprintf('Locate mesh file name: %s, reading mesh...\n', filename);
 
   % Erase return-carrige character: (\r)
   strFile = erase(file,char(13));
 
   %% 1. Read Mesh Format
   [info] = ReadGMSHMeshFormat(strFile);
+  fprintf('Success in reading mesh format!\n');
 
   %% 2. Read Physical Names
   [physTag2Name, physName2Tag, info] = ReadGMSHPhysicalName(strFile, info);
+  fprintf('Success in reading physical name!\n');
 
   %% 3. Read Entities
   [geoEntity] = ReadGMSHEntity(strFile);
+  fprintf('Success in reading geometry entity!\n');
 
   %% 4. Read Nodes
   [V,info] = ReadGMSHNode(strFile, info);
+  fprintf('Success in reading mesh node!\n');
 
   %% 5. Read Elements
   [ELEM,info] = ReadGMSHMesh(strFile, geoEntity, info);
+  fprintf('Success in reading mesh element!\n');
 
   %% 6. Read Periodic
   pedcPair = ReadGMSHPerodic(strFile);
+  fprintf('Success in reading periodic node pair!\n');
 end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
