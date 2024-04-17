@@ -1,4 +1,4 @@
-function [info,physTag2Name,physName2Tag,geoEntity,V,ELEM,pedcPair] = ReadGMSHV4(filename)
+function [info,physTag2Name,physName2Tag,geoEntity,NODE,ELEM,pedcPair] = ReadGMSHV4(filename)
 %Read GMSH format file
 % This ReadGMSHV4 funtion reads gmsh .msh files in version 4.1,
 % To know more about gmsh .msh format, please refer to 
@@ -13,7 +13,7 @@ function [info,physTag2Name,physName2Tag,geoEntity,V,ELEM,pedcPair] = ReadGMSHV4
 %     mappings
 %   geoEntity - geometric entities of points, curves, surfaces and volumes
 %     structure
-%   V - nodes of mesh
+%   NODE - nodes of mesh
 %     structure
 %   ELEM - elements of mesh
 %     structure
@@ -42,7 +42,7 @@ function [info,physTag2Name,physName2Tag,geoEntity,V,ELEM,pedcPair] = ReadGMSHV4
   fprintf('Success in reading geometry entity!\n');
 
   %% 4. Read Nodes
-  [V,info] = ReadGMSHNode(strFile, info);
+  [NODE,info] = ReadGMSHNode(strFile, info);
   fprintf('Success in reading mesh node!\n');
 
   %% 5. Read Elements

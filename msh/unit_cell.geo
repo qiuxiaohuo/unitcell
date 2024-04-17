@@ -117,6 +117,6 @@ Physical Point("u_y") = {pt};
 pt = Point In BoundingBox{0-eps, 0-eps, 1-eps, 0+eps, 0+eps, 1+eps};
 Physical Point("u_z") = {pt};
 
-Mesh.MeshSizeMax = 0.5;
+Mesh.MeshSizeMax = 0.2;
 Mesh 3;
 Save "unit_cell.msh";
