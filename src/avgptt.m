@@ -1,15 +1,19 @@
-function [avgf, V] = avgptt(field,node,elem,tag)
+function avgf = avgptt(field,node,elem,tag)
 %avgptt Return field volume average of given physical tag
 % Input
 %   field - field varible, index by row
 %     vector | matrix
+%   tag - physical tag for desired average domain, -1 will average 
+%   on the whole domain
+%     scalar(boolen | int)
+
 
   V = 0;
   avgf = zeros(size(field(1,:)));
 
   for ielem = 1:elem.NELEM
-    elemPhystag = elem.physTag(ielem);
-    if elemPhystag == tag
+    elem_tag = elem.physTag(ielem);
+    if tag == elem_tag || tag == -1
       cnnt = elem.EToV(ielem,:);
       elemType = elem.Etype(ielem);
 

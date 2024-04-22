@@ -1,12 +1,14 @@
-function [f] = CalUCellForce(info,physTag2Name,V_coord,ELEM_VE,Lf,Lm,eigE0)
+function [f,f_f,f_m] = CalUCellForce(info,physTag2Name,V_coord,ELEM_VE,Lf,Lm,eigE0)
 %CalStiffnessMatrix Calculate unconstraint gloabal stiffness matrix
 
   % function info
   elemType = 'C3D4';
   [~,dN]   = elempara(elemType);
 
-  % preallocate K
-  f = zeros(info.nDof,1);
+  % preallocate f_f and f_m
+  f   = zeros(info.nDof,1);
+  f_f = zeros(info.nDof,1);
+  f_m = zeros(info.nDof,1);
   
   % loop of element
   for ielem = 1:info.nElem
@@ -22,14 +24,14 @@ function [f] = CalUCellForce(info,physTag2Name,V_coord,ELEM_VE,Lf,Lm,eigE0)
     switch physTag2Name(elemTag)
       case 'fiber'
         fe = w.*detJ_ip.*B_ip'*Lf*eigE0;
+        f_f(DofID3(elemcnc)) = f_f(DofID3(elemcnc)) + fe;
       case 'matrix'
         fe = w.*detJ_ip.*B_ip'*Lm*eigE0;
+        f_m(DofID3(elemcnc)) = f_m(DofID3(elemcnc)) + fe;
       otherwise
         error("Could not find physTag fiber or matrix!")
     end
-    
-    % assembly fe
-    f(DofID3(elemcnc)) = f(DofID3(elemcnc)) + fe;
-
   end
+
+  f = f_f + f_m;
 end
