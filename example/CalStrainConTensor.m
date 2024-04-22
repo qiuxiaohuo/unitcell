@@ -17,22 +17,19 @@ init;
 
 %% script input
 % material para
-E_f = 379.2; nu_f = 0.21;
-E_m =  68.9; nu_m = 0.33;
-c_f = 0.267; % volume fraction of fiber
-
-% coarse-scale strain
-ec = [1 2 2 1 2 1]';
+E0_f = 379.2; nu0_f = 0.21;
+E0_m =  68.9; nu0_m = 0.33;
+c0_f = 0.267; c0_m  = 1-c0_f;
 
 %#TODO: rewrite material matrix function
-Lf = CalMatrialMatrix(E_f, nu_f);
-Lm = CalMatrialMatrix(E_m, nu_m);
+L4_f = elasticity(E0_f, nu0_f);
+L4_m = elasticity(E0_m, nu0_m);
 
 mshFileName   = "./msh/unit_cell.msh";
 datFolderName = "./data";
 
 % initialize strain concentrated tensor
-cct = {};
+Cct = {};
 
 %% Read mesh
 [info,physTag2Name,physName2Tag,geoEntity,Node,Elem,pedcPair] = ...
@@ -52,7 +49,7 @@ Pair = CalPeriodicNodePairUC(physName2Tag,geoEntity,Node,pedcPair);
 %% aymtotic methods, with periodic boundary condition
 for i = 1:6
   eigE  = zeros(6,1); eigE(i) = 1; % set eigenstrain
-  U = FEMSolverUCell(info,physTag2Name,Node,Elem.VE,Pair,Lf,Lm,eigE);
-  cct{i} = strain(info,Node.coord,Elem.VE,-U) ...
+  U = FEMSolverUCell(info,physTag2Name,Node,Elem.VE,Pair,L4_f,L4_m,eigE);
+  Cct{i} = strain(info,Node.coord,Elem.VE,-U) ...
     + constfield(eigE',Elem.VE.NELEM);
 end

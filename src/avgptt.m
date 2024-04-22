@@ -1,4 +1,4 @@
-function avgf = avgptt(field,node,elem,tag)
+function [avgf, V] = avgptt(field,node,elem,tag)
 %avgptt Return field volume average of given physical tag
 % Input
 %   field - field varible, index by row
