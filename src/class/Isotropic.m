@@ -129,7 +129,16 @@ classdef Isotropic
         case 'axisymmetric'
       end
     end
+    
+    function hill = getHill(iso)
+      k = iso.lambda + iso.mu;
+      l = iso.lambda;
+      n = iso.lambda + 2*iso.mu;
+      m = iso.mu;
+      p = iso.mu;
 
+      hill = [k l n m p];
+    end
   end
 end
 

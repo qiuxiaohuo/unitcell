@@ -66,5 +66,13 @@ classdef TEST_Isotropic < matlab.unittest.TestCase
                 @()Isotropic('solid3d',[200 0.2 83.33]), ...
                 'MATLAB:incorrectNumel')
     end
+
+    % Test 5: Hill paras
+    function CalHill(testCase)
+      iso = Isotropic('solid3d',[100.0 100.0],'paraName','lambda&mu');
+      actualSolu = iso.getHill;
+      expectSolu = [200. 100. 300. 100. 100.];
+      testCase.verifyEqual(actualSolu, expectSolu, 'Abstol',0.01);
+    end
   end
 end

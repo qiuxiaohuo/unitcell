@@ -200,6 +200,19 @@ classdef Orthotropic
       cmpl(6,6) = 1/ortt.G_12;
     end
 
+    function hill = getHill(ortt)
+      a = 2*(1-ortt.nu_23) / ortt.E_2;
+      b = - 4*ortt.nu_12^2 / ortt.E_1;
+
+      k = 1 / (a + b);
+      l = 2 * k * ortt.nu_12;
+      n = ortt.E_1 + l^2 / k;
+      m = ortt.G_23 ;
+      p = ortt.G_12;
+
+      hill = [k l n m p];
+    end
+
   end
 end
 

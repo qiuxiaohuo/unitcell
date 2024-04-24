@@ -64,5 +64,14 @@ classdef TEST_Orthotropic < matlab.unittest.TestCase
                 @()Orthotropic('solid3d',prop_eg_10_elem), ...
                 'MATLAB:incorrectNumel')
     end
+
+    % Test 5: Hill paras
+    function CalHill(testCase)
+      prop_eg = [250. 250. 250. 0.25 0.25 0.25 100. 100. 100.];
+      ortt = Orthotropic('solid3d',prop_eg);
+      actualSolu = ortt.getHill;
+      expectSolu = [200. 100. 300. 100. 100.];
+      testCase.verifyEqual(actualSolu, expectSolu, 'Abstol',0.01);
+    end
   end
 end
