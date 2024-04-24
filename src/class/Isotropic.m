@@ -1,17 +1,17 @@
 classdef Isotropic
   %Isotropic isotropic elastic material
   properties
-    E      (1,1) double = 0.0   % Young's modulus
-    nu     (1,1) double = 0.0   % Poisson's ratio
+    E      (1,1) double = 0.0 % Young's modulus
+    nu     (1,1) double = 0.0 % Poisson's ratio
 
-    lambda (1,1) double = 0.0
-    mu     (1,1) double = 0.0
+    lambda (1,1) double = 0.0 % Lame modulus
+    mu     (1,1) double = 0.0 % shear modulus
 
     type   (1,:) char   = ''
   end
 
   properties (Dependent)
-    kappa  (1,1) double
+    kappa  (1,1) double       % bulk modulus
 
     modl % elastic modulus matrix
     cmpl % elastic compliance matrix
@@ -21,6 +21,8 @@ classdef Isotropic
     function iso = Isotropic(type,prop,varargin)
       %Isotropic Construct an instance of this class
       %   Detailed explanation goes here
+
+      % function input parser
       validType = @(x) any(validatestring(x, ...
                     {'solid3d', 'pstress', 'pstrain', 'axisymmetric'}));
       defaultPara = 'E&nu';
@@ -34,12 +36,17 @@ classdef Isotropic
 
       parse(p,type,prop,varargin{:});
 
+      % assign property
       iso.type = p.Results.type;
-
       switch p.Results.para
         case 'E&nu'
           iso.E  = p.Results.prop(1);
           iso.nu = p.Results.prop(2);
+
+          % check material stability
+          if ~(iso.E>0 && -1<iso.nu && iso.nu<0.5)
+            error('Material does NOT satisfy stability condition')
+          end
 
           % cal lambda and mu from E and nu
           iso.lambda = (iso.E * iso.nu) / (1 + iso.nu) / (1 - 2*iso.nu);
@@ -48,6 +55,11 @@ classdef Isotropic
         case 'lambda&mu'
           iso.lambda  = p.Results.prop(1);
           iso.mu      = p.Results.prop(2);
+
+          % check material stability
+          if ~(iso.lambda>0 && iso.mu>0)
+            error('Material does NOT satisfy stability condition')
+          end
 
           % cal E and nu from lambda and mu
           iso.E  = iso.mu * (3*iso.lambda + 2*iso.mu) / (iso.lambda + iso.mu);
@@ -80,7 +92,7 @@ classdef Isotropic
         
           modl = E0/(1+nu0)/(1-2*nu0).*modl;
         case 'pstress'
-
+          
         case 'pstrain'
 
         case 'axisymmetric'
