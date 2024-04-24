@@ -1,5 +1,6 @@
 %% add courrent directory to path
-addpath(genpath(pwd));
+addpath(genpath('src/'));
+addpath(genpath('example/'));
 
 %% clear variables
 clear
