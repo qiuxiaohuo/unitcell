@@ -1,8 +1,8 @@
 classdef Orthotropic
   %Orthotropic Orthotropic elastic material
   
-  % Engineering constants
   properties
+    % Engineering constants
     E_1   (1,1) double = 0.0
     E_2   (1,1) double = 0.0
     E_3   (1,1) double = 0.0
@@ -12,10 +12,16 @@ classdef Orthotropic
     G_12  (1,1) double = 0.0
     G_13  (1,1) double = 0.0
     G_23  (1,1) double = 0.0
-  end
 
-  % matrix terms
-  properties
+    % derived from engineer const
+    nu_21 (1,1) double
+    nu_31 (1,1) double
+    nu_32 (1,1) double
+    G_21  (1,1) double
+    G_31  (1,1) double
+    G_32  (1,1) double
+
+    % matrix terms
     c_11 (1,1) double = 0.0
     c_12 (1,1) double = 0.0
     c_22 (1,1) double = 0.0
@@ -25,42 +31,34 @@ classdef Orthotropic
     c_44 (1,1) double = 0.0
     c_55 (1,1) double = 0.0
     c_66 (1,1) double = 0.0
-  end
 
-  properties
     type  (1,:) char = ''
   end
 
   properties (Dependent)
-    nu_21 (1,1) double
-    nu_31 (1,1) double
-    nu_32 (1,1) double
-    G_21  (1,1) double
-    G_31  (1,1) double
-    G_32  (1,1) double
-
-    modl % elastic modulus matrix
-    cmpl % elastic compliance matrix
+    modl
+    cmpl
   end
   
   methods
     function ortt = Orthotropic(type,prop,varargin)
       validType = @(x) any(validatestring(x, ...
                     {'solid3d'}));
+      validProp = @(x) validateattributes(x, {'double'},{'numel', 9});
       defaultPara = 'engineering'; % default prop as engineering
       expectedParas = {'engineering', 'matrixTerm'};
 
       p = inputParser;
       addRequired( p,'type',validType);
-      addRequired( p,'prop');
-      addParameter(p,'para',defaultPara,...
+      addRequired( p,'prop',validProp);
+      addParameter(p,'paraName',defaultPara,...
                 @(x) any(validatestring(x,expectedParas)));
 
       parse(p,type,prop,varargin{:});
 
       % assign property
       ortt.type = p.Results.type;
-      switch p.Results.para
+      switch p.Results.paraName
         case 'engineering'
           % assign value
           ortt.E_1   = p.Results.prop(1);
@@ -96,14 +94,15 @@ classdef Orthotropic
           cdtion_3 = (delta>0);
 
           if ~all([cdtion_1 cdtion_2 cdtion_3])
-            error('Material does NOT satisfy stability condition')
+            error('Orthotropic:MaterialNOTStable',...
+              'Material does NOT satisfy stability condition')
           end
         
           % cal matrix terms from engineer const
           ortt.c_11 = ortt.E_1 * (1 - ortt.nu_23*ortt.nu_32) / delta;
           ortt.c_22 = ortt.E_2 * (1 - ortt.nu_13*ortt.nu_31) / delta;
           ortt.c_33 = ortt.E_3 * (1 - ortt.nu_12*ortt.nu_21) / delta;
-c
+          
           ortt.c_12 = ortt.E_1 * (ortt.nu_21 + ortt.nu_31*ortt.nu_23) / delta;
           ortt.c_13 = ortt.E_1 * (ortt.nu_31 + ortt.nu_21*ortt.nu_32) / delta;
           ortt.c_23 = ortt.E_2 * (ortt.nu_32 + ortt.nu_12*ortt.nu_31) / delta;
@@ -150,7 +149,8 @@ c
           cdtion_3 = (detC3>0);
 
           if ~all([cdtion_1 cdtion_2 cdtion_3])
-            error('Material does NOT satisfy stability condition')
+            error('Orthotropic:MaterialNOTStable',...
+              'Material does NOT satisfy stability condition')
           end
         
           % cal engineer const from matrix terms

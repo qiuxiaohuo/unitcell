@@ -18,34 +18,39 @@ classdef Isotropic
   end
   
   methods
-    function iso = Isotropic(type,prop,varargin)
+    function iso = Isotropic(problemType,prop,varargin)
       %Isotropic Construct an instance of this class
-      %   Detailed explanation goes here
+      % Input:
+      %   type - 
+      %     'solid3d' | 'pstress'
 
       % function input parser
       validType = @(x) any(validatestring(x, ...
                     {'solid3d', 'pstress', 'pstrain', 'axisymmetric'}));
-      defaultPara = 'E&nu';
-      expectedParas = {'E&nu', 'lambda&mu'};
+      % input prop must be double array of length 2
+      validProp = @(x) validateattributes(x, {'double'},{'numel', 2});
+      default_paraName   = 'E&nu';
+      expected_paraNames = {'E&nu', 'lambda&mu'};
 
       p = inputParser;
       addRequired( p,'type',validType);
-      addRequired( p,'prop');
-      addParameter(p,'para',defaultPara,...
-                @(x) any(validatestring(x,expectedParas)));
+      addRequired( p,'prop',validProp);
+      addParameter(p,'paraName',default_paraName,...
+                @(x) any(validatestring(x,expected_paraNames)));
 
-      parse(p,type,prop,varargin{:});
+      parse(p,problemType,prop,varargin{:});
 
       % assign property
       iso.type = p.Results.type;
-      switch p.Results.para
+      switch p.Results.paraName
         case 'E&nu'
           iso.E  = p.Results.prop(1);
           iso.nu = p.Results.prop(2);
 
           % check material stability
           if ~(iso.E>0 && -1<iso.nu && iso.nu<0.5)
-            error('Material does NOT satisfy stability condition')
+            error('Isotropic:MaterialNOTStable',...
+              'Material does NOT satisfy stability condition')
           end
 
           % cal lambda and mu from E and nu
@@ -58,7 +63,8 @@ classdef Isotropic
 
           % check material stability
           if ~(iso.lambda>0 && iso.mu>0)
-            error('Material does NOT satisfy stability condition')
+            error('Isotropic:MaterialNOTStable',...
+              'Material does NOT satisfy stability condition')
           end
 
           % cal E and nu from lambda and mu
