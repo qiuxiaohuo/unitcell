@@ -31,8 +31,7 @@ c0_f = 0.267; c0_m  = 1-c0_f;
 L4_f = elasticity(E0_f, nu0_f);
 L4_m = elasticity(E0_m, nu0_m);
 
-mshFileName   = "./msh/unit_cell.msh";
-datFolderName = "./data";
+mshFileName   = "./example/msh/unit_cell.msh";
 
 % initialize strain concentrated tensor
 E4_fld = cell(1,n_mode);

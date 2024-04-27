@@ -1,0 +1,46 @@
+*HEADING
+: LINEAR ORTHOTROPIC ELASTIC MATERIAL   [CPS4]
+*NODE,NSET=ALL
+ 1,0.,0.,0.
+ 2,7.,0.,0.
+ 3,7.,7.
+ 4,0.,7.
+*ELEMENT,TYPE=CPS4,ELSET=A1
+ 1, 1,2,3,4
+*BOUNDARY
+ 1,1,2
+ 2,1,2
+**local orientation matching global system 
+*ORIENTATION,NAME=RECT
+ 1.0, 0.0, 0.0, 0.0, 1.0, 0.0
+ 1, 0.0
+*SOLID SECTION,MATERIAL=A1,ELSET=A1,ORIENT=RECT
+*MATERIAL,NAME=A1
+*ELASTIC,TYPE=ORTHO
+ 1010.1,101.01, 1010.1, 0., .0,1000. , 100.,100.
+ 100., 
+** -----------------------------------------
+** Equivalent data:
+**
+**  *ELASTIC,TYPE=ENGINEERING CONSTANTS
+**  1000.,1000.,1000.,.1,0.,0. , 100.,100.
+**  100.
+** -----------------------------------------
+*STEP,NLGEOM
+*STATIC
+*CLOAD
+ 3,1,10.
+ 4,1,10.
+ 3,2,10.
+ 4,2,5.
+*EL PRINT
+ S,E
+*OUTPUT,FIELD
+*ELEMENT OUTPUT
+S,E,ER,ERP
+*NODE PRINT
+ U,RF,CF
+*OUTPUT,FIELD
+*NODE OUTPUT
+U,RF,CF
+*END STEP

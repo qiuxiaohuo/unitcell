@@ -1,8 +1,8 @@
-function Lhomo = Moritanaka_Transverse(matl_m,matl_f,c_f)
+function Lhomo = Cal_Lhomo_Mori_Tanaka(matl_m,matl_f,c_f)
 %MoriTanaka return matrix of homo modulus using Mori Tanaka method
   arguments
-    matl_m (1,1) 
-    matl_f (1,1) 
+    matl_m (1,1)
+    matl_f (1,1)
     c_f    (1,1) {double} 
   end
 

@@ -5,7 +5,7 @@
 % calculate concentrated tensor field on unit cell
 
 % comment out after first run, avoid repeated FEM calculation
-% CalStrainConTensor
+CalStrainConTensor
 
 %% Average strain concentrated tensor on phase
 

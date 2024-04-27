@@ -1,4 +1,4 @@
-classdef TEST_Isotropic < matlab.unittest.TestCase
+classdef Isotropic_TEST < matlab.unittest.TestCase
   properties (TestParameter)
     % obtained from https://www.omnicalculator.com/physics/elastic-constants
     E_nu_Props      = {[200.0   0.2] [100.0   0.3] [300.0   0.1]};

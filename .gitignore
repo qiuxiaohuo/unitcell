@@ -1,5 +1,5 @@
 # List of untracked files to ignore
-
+## MATLAB files
 # Autosave files
 *.asv
 *.m~
@@ -47,3 +47,15 @@ codegen/
 # Project settings
 Utilities/ProjectSettings.mat
 
+## ABAQUS files
+*.com
+*.mdl
+*.prt
+*.sim
+*.sta
+*.stt
+*.dat
+*.res
+*.log
+*.msg
+*.rpy
